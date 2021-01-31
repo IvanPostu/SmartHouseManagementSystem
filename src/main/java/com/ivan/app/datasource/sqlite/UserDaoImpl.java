@@ -5,7 +5,6 @@
  */
 package com.ivan.app.datasource.sqlite;
 
-import com.ivan.app.configurations.SQLiteConnectionWrapper;
 import com.ivan.app.datasource.UserDao;
 import com.ivan.app.datasource.entity.UserEntity;
 import java.sql.Connection;

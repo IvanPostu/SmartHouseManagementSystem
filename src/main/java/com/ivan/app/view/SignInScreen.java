@@ -9,6 +9,9 @@ import com.ivan.app.configurations.SQLiteConnectionWrapper;
 import com.ivan.app.datasource.UserDao;
 import com.ivan.app.datasource.entity.UserEntity;
 import com.ivan.app.datasource.sqlite.UserDaoImpl;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 /**
@@ -177,9 +180,12 @@ public class SignInScreen extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(
                     MainWindow.getInstance(), successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
             mainWindow.setContentPane(new HomeScreen());
+            JMenu profileMenu = mainWindow.getProfileMenu();
+            profileMenu.setVisible(true);
+
             mainWindow.revalidate();
         } else {
-            String message = "Username or password is incorrect!!!";
+            String message = "Username or password is incorrect !!!";
             JOptionPane.showMessageDialog(
                     MainWindow.getInstance(), message, "Warning", JOptionPane.WARNING_MESSAGE);
             mainWindow.setContentPane(new SignInScreen());
