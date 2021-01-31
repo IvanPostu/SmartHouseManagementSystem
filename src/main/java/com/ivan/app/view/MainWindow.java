@@ -9,15 +9,22 @@ package com.ivan.app.view;
  *
  * @author User
  */
-public class MainWindow extends javax.swing.JFrame {
+public final class MainWindow extends javax.swing.JFrame {
 
-    /**
-     * Creates new form MainWindow
-     */
-    public MainWindow() {
+    
+    private static MainWindow singleton;
+    
+    private MainWindow() {
         initComponents();
     }
 
+    public static synchronized MainWindow getInstance(){
+        if(singleton == null) {
+            singleton = new MainWindow();
+        }
+        
+        return singleton;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
