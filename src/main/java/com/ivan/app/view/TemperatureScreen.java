@@ -5,17 +5,21 @@
  */
 package com.ivan.app.view;
 
+import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.io.File;
+import java.io.IOException;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
+import org.jfree.chart.ChartUtils;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.category.BarRenderer;
+import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
@@ -37,6 +41,7 @@ public class TemperatureScreen extends javax.swing.JPanel {
         initChart();
         initScatterChartPanel();
         initChartBarsColorPanel();
+        initLineChartPanel();
     }
 
     private void initChart() {
@@ -181,6 +186,101 @@ public class TemperatureScreen extends javax.swing.JPanel {
 //        frame.pack();
     }
 
+    private void initLineChartPanel() {
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        String series1 = "Java";
+        String series2 = "PHP";
+        String series3 = "C++";
+        String series4 = "C#";
+
+        dataset.addValue(5.0, series1, "2005");
+        dataset.addValue(4.8, series1, "2006");
+        dataset.addValue(4.5, series1, "2007");
+        dataset.addValue(4.3, series1, "2008");
+        dataset.addValue(4.0, series1, "2009");
+        dataset.addValue(4.1, series1, "2010");
+        dataset.addValue(4.2, series1, "2011");
+        dataset.addValue(4.2, series1, "2012");
+        dataset.addValue(4.0, series1, "2013");
+
+        dataset.addValue(4.0, series2, "2005");
+        dataset.addValue(4.2, series2, "2006");
+        dataset.addValue(3.8, series2, "2007");
+        dataset.addValue(3.6, series2, "2008");
+        dataset.addValue(3.4, series2, "2009");
+        dataset.addValue(3.4, series2, "2010");
+        dataset.addValue(3.3, series2, "2011");
+        dataset.addValue(3.1, series2, "2012");
+        dataset.addValue(3.2, series2, "2013");
+
+        dataset.addValue(3.6, series3, "2005");
+        dataset.addValue(3.4, series3, "2006");
+        dataset.addValue(3.5, series3, "2007");
+        dataset.addValue(3.2, series3, "2008");
+        dataset.addValue(3.2, series3, "2009");
+        dataset.addValue(3.0, series3, "2010");
+        dataset.addValue(2.8, series3, "2011");
+        dataset.addValue(2.8, series3, "2012");
+        dataset.addValue(2.6, series3, "2013");
+
+        dataset.addValue(3.2, series4, "2005");
+        dataset.addValue(3.2, series4, "2006");
+        dataset.addValue(3.0, series4, "2007");
+        dataset.addValue(3.0, series4, "2008");
+        dataset.addValue(2.8, series4, "2009");
+        dataset.addValue(2.7, series4, "2010");
+        dataset.addValue(2.6, series4, "2011");
+        dataset.addValue(2.6, series4, "2012");
+        dataset.addValue(2.4, series4, "2013");
+
+        String chartTitle = "Programming Languages Trends";
+        String categoryAxisLabel = "Interest over time";
+        String valueAxisLabel = "Popularity";
+
+        JFreeChart chart = ChartFactory.createLineChart(chartTitle,
+                categoryAxisLabel, valueAxisLabel, dataset);
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+        CategoryPlot plot = chart.getCategoryPlot();
+        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
+        plot.setRenderer(renderer);
+
+        renderer.setSeriesPaint(0, Color.RED);
+        renderer.setSeriesPaint(1, Color.GREEN);
+        renderer.setSeriesPaint(2, Color.BLUE);
+        renderer.setSeriesPaint(3, Color.YELLOW);
+
+        renderer.setSeriesStroke(0, new BasicStroke(4.0f));
+        renderer.setSeriesStroke(1, new BasicStroke(3.0f));
+        renderer.setSeriesStroke(2, new BasicStroke(2.0f));
+        renderer.setSeriesStroke(3, new BasicStroke(1.5f));
+
+        plot.setOutlinePaint(Color.BLUE);
+        plot.setOutlineStroke(new BasicStroke(2.0f));
+        plot.setBackgroundPaint(Color.CYAN);
+        plot.setRangeGridlinesVisible(true);
+        plot.setRangeGridlinePaint(Color.BLACK);
+
+        plot.setDomainGridlinesVisible(true);
+        plot.setDomainGridlinePaint(Color.BLACK);
+
+        plot.setRenderer(renderer);
+
+        lineChartPanel.removeAll();
+        lineChartPanel.add(chartPanel, BorderLayout.CENTER);
+        lineChartPanel.validate();
+
+//        File imageFile = new File("LineChart.png");
+//        int width = 640;
+//        int height = 480;
+//
+//        try {
+//            ChartUtils.saveChartAsPNG(imageFile, chart, width, height);
+//        } catch (IOException ex) {
+//            System.err.println(ex);
+//        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -197,6 +297,7 @@ public class TemperatureScreen extends javax.swing.JPanel {
         panelChart = new javax.swing.JPanel();
         chartBarColorsPanel = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
+        lineChartPanel = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -206,8 +307,9 @@ public class TemperatureScreen extends javax.swing.JPanel {
         jScrollPane1.setHorizontalScrollBar(null);
         jScrollPane1.setPreferredSize(new java.awt.Dimension(800, 1100));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 1100));
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 1500));
 
+        jPanel2.setBackground(java.awt.SystemColor.controlHighlight);
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jPanel2.setPreferredSize(new java.awt.Dimension(750, 950));
 
@@ -223,17 +325,21 @@ public class TemperatureScreen extends javax.swing.JPanel {
         jPanel3.setBackground(new java.awt.Color(153, 255, 153));
         jPanel3.setLayout(new java.awt.BorderLayout());
 
+        lineChartPanel.setBackground(new java.awt.Color(204, 255, 204));
+        lineChartPanel.setLayout(new java.awt.BorderLayout());
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelChart, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(browsersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(chartBarColorsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lineChartPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(panelChart, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+                    .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(browsersPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(chartBarColorsPanel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -247,7 +353,9 @@ public class TemperatureScreen extends javax.swing.JPanel {
                 .addComponent(chartBarColorsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(lineChartPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(193, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -255,16 +363,16 @@ public class TemperatureScreen extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 850, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(238, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(188, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -289,6 +397,7 @@ public class TemperatureScreen extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel lineChartPanel;
     private javax.swing.JPanel panelChart;
     // End of variables declaration//GEN-END:variables
 }
