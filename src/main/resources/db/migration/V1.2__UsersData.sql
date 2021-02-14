@@ -1,10 +1,29 @@
 
-INSERT INTO "users" ( "username", "password", "first_name", "last_name")
+INSERT INTO "users" 
+    ( "username", "first_name", "last_name", "hash_algorithm", "password")
 VALUES
-('user27', 'qwerty09', 'Mike', 'Jones'),
-('jimmy', 'qwerty', 'Marin', 'Pepeneverde'),
-('rick', 'helloworld', 'Ion', 'Vasilevski'),
-('masyanya', 'abcde007', 'Rick', 'Martin'),
-('user', 'qwerty', 'Mihail', 'Timus'),
-('ivan', 'qwerty', 'Ivan', 'Postu')
+(   'user27', 'Mike', 'Jones', 
+    'SHA-256', 
+    'B6AD34B0B6B7E38F878A513B3F7927EBEB4CFFB01AEB6D9FD9F9AD67FBC76517'
+),
+(   'jimmy', 'Marin', 'Pepeneverde', 
+    'SHA-256', 
+    'B6AD34B0B6B7E38F878A513B3F7927EBEB4CFFB01AEB6D9FD9F9AD67FBC76517'
+),
+(   'rick', 'Ion', 'Vasilevski', 
+    'SHA-256', 
+    'B6AD34B0B6B7E38F878A513B3F7927EBEB4CFFB01AEB6D9FD9F9AD67FBC76517'
+),
+(   'masyanya', 'Rick', 'Martin', 
+    'SHA-256', 
+    'B6AD34B0B6B7E38F878A513B3F7927EBEB4CFFB01AEB6D9FD9F9AD67FBC76517'
+),
+(   'user', 'Mihail', 'Timus', 
+    'SHA-256', 
+    'B6AD34B0B6B7E38F878A513B3F7927EBEB4CFFB01AEB6D9FD9F9AD67FBC76517'
+),
+(   'ivan', 'Ivan', 'Postu', 
+    'SHA-256', 
+    '65E84BE33532FB784C48129675F9EFF3A682B27168C0EA744B2CF58EE02337C5'
+)
 ;
