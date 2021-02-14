@@ -1,0 +1,8 @@
+
+
+CREATE TABLE "place" (
+	"place_id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT ,
+	"place" VARCHAR(128) UNIQUE
+);
+
+

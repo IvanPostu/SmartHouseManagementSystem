@@ -62,6 +62,7 @@ public class HomeScreen extends javax.swing.JPanel {
 
         airHumidityButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/air64x64.png"))); // NOI18N
         airHumidityButton.setText("Air humidity");
+        airHumidityButton.setFocusPainted(false);
         airHumidityButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 airHumidityButtonActionPerformed(evt);
@@ -70,6 +71,7 @@ public class HomeScreen extends javax.swing.JPanel {
 
         temperatureButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/temperature64x64.png"))); // NOI18N
         temperatureButton.setText("Temperature");
+        temperatureButton.setFocusPainted(false);
         temperatureButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 temperatureButtonActionPerformed(evt);

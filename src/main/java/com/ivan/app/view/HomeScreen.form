@@ -118,6 +118,7 @@
               <Image iconType="3" name="/air64x64.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Air humidity"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="airHumidityButtonActionPerformed"/>
@@ -129,6 +130,7 @@
               <Image iconType="3" name="/temperature64x64.png"/>
             </Property>
             <Property name="text" type="java.lang.String" value="Temperature"/>
+            <Property name="focusPainted" type="boolean" value="false"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="temperatureButtonActionPerformed"/>

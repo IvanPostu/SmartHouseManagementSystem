@@ -29,22 +29,23 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class HumidityScreen extends javax.swing.JPanel {
 
-    /**
-     * Creates new form HumidityScreen
-     */
+    private final Timer hotDiagramUpdateTimer;
+    private final DefaultCategoryDataset hotRealtimeHumidityDataset;
+    private final Random random;
+
     public HumidityScreen() {
         initComponents();
 
-        this.insideHotRealtimeHumidityDataset = new DefaultCategoryDataset();
-        this.outsideHotRealtimeHumidityDataset = new DefaultCategoryDataset();
+        this.random = new Random();
+        this.hotRealtimeHumidityDataset = new DefaultCategoryDataset();
         this.jScrollPane1.getVerticalScrollBar().setUnitIncrement(18);
-        
-        initInsideRealtimeHumidityDiagram();
-        initOutsideRealtimeHumidityDiagram();
-        
+
+//        initInsideRealtimeHumidityDiagram();
+//        initOutsideRealtimeHumidityDiagram();
+        initHotRealtiveHumidityDiagram();
+
         this.hotDiagramUpdateTimer = new Timer(1000 * 2, (e) -> {
-            updateHumidityInsideTheHouseValue();
-            updateHumidityOutsideTheHouseValue();
+            updateHotHumidityTheHouseValue();
         });
     }
 
@@ -60,121 +61,50 @@ public class HumidityScreen extends javax.swing.JPanel {
         this.hotDiagramUpdateTimer.stop();
     }
 
-    private void updateHumidityInsideTheHouseValue() {
-        Random random = new Random();
+    private void updateHotHumidityTheHouseValue() {
+
         DateFormat dateTimeFormatter = new SimpleDateFormat("HH:mm:ss");
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         calendar.set(Calendar.SECOND, (calendar.get(Calendar.SECOND)));
         String dateStr = dateTimeFormatter.format(calendar.getTime());
-        insideHotRealtimeHumidityDataset.addValue(25 + random.nextInt(15), "humidity",
+        hotRealtimeHumidityDataset.addValue(25 + random.nextInt(15),
+                "Humidity (inside the house)",
                 dateStr);
-        insideHotRealtimeHumidityDataset.removeColumn(0);
-    }
-
-    private void updateHumidityOutsideTheHouseValue() {
-        Random random = new Random();
-        DateFormat dateTimeFormatter = new SimpleDateFormat("HH:mm:ss");
-        Date now = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        calendar.set(Calendar.SECOND, (calendar.get(Calendar.SECOND)));
-        String dateStr = dateTimeFormatter.format(calendar.getTime());
-        outsideHotRealtimeHumidityDataset.addValue(35 + random.nextInt(20), "humidity",
+        hotRealtimeHumidityDataset.addValue(35 + random.nextInt(19),
+                "Humidity (outside the house)",
                 dateStr);
-        outsideHotRealtimeHumidityDataset.removeColumn(0);
+        hotRealtimeHumidityDataset.removeColumn(0);
     }
 
-    // <editor-fold defaultstate="collapsed" desc="initInsideRealtimeHumidityDiagram">  
-    private void initInsideRealtimeHumidityDiagram() {
+    // <editor-fold defaultstate="collapsed" desc="initHotRealtiveHumidityDiagram">  
+    private void initHotRealtiveHumidityDiagram() {
 
-        String series1 = "humidity";
-
-        Random random = new Random();
-
-        Date now = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        String dateStr = "";
-
-        DefaultCategoryDataset dataset = insideHotRealtimeHumidityDataset;
-        DateFormat dateTimeFormatter = new SimpleDateFormat("HH:mm:ss");
-
-        for (int i = 0; i < 9; i++) {
-            calendar.set(Calendar.SECOND, (calendar.get(Calendar.SECOND) - 2));
-            dateStr = dateTimeFormatter.format(calendar.getTime());
-            dataset.addValue(25 + random.nextInt(12), series1, dateStr);
-        }
-
-        String chartTitle = "Humidity (inside the house)";
-        String categoryAxisLabel = "Time";
-        String valueAxisLabel = "Relative humidity (%)";
-
-        JFreeChart chart = ChartFactory.createLineChart(chartTitle,
-                categoryAxisLabel, valueAxisLabel, dataset);
-
-        ChartPanel chartPanel = new ChartPanel(chart);
-        CategoryPlot plot = chart.getCategoryPlot();
-        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
-        plot.setRenderer(renderer);
-
-        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setRange(0, 100);
-        rangeAxis.setTickUnit(new NumberTickUnit(5.0));
-
-        renderer.setSeriesPaint(0, Color.RED);
-
-        renderer.setSeriesStroke(0, new BasicStroke(4.0f));
-        renderer.setSeriesStroke(1, new BasicStroke(3.0f));
-        renderer.setSeriesStroke(2, new BasicStroke(2.0f));
-        renderer.setSeriesStroke(3, new BasicStroke(1.5f));
-
-        plot.setOutlinePaint(Color.BLUE);
-        plot.setOutlineStroke(new BasicStroke(1.0f));
-        plot.setBackgroundPaint(Color.WHITE);
-        plot.setRangeGridlinesVisible(true);
-        plot.setRangeGridlinePaint(Color.BLACK);
-
-        plot.setDomainGridlinesVisible(true);
-        plot.setDomainGridlinePaint(Color.BLACK);
-
-        plot.setRenderer(renderer);
-
-        insideHouseHumidityDiagramPanel.removeAll();
-        insideHouseHumidityDiagramPanel.add(chartPanel, BorderLayout.CENTER);
-        insideHouseHumidityDiagramPanel.validate();
-
-    }
-    // </editor-fold> 
-
-    // <editor-fold defaultstate="collapsed" desc="initOutsideRealtimeHumidityDiagram">  
-    private void initOutsideRealtimeHumidityDiagram() {
-
-        String series1 = "humidity";
-
-        Random random = new Random();
+        String series1 = "Humidity (inside the house)";
+        String series2 = "Humidity (outside the house)";
 
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         String dateStr;
 
-        DefaultCategoryDataset dataset = outsideHotRealtimeHumidityDataset;
         DateFormat dateTimeFormatter = new SimpleDateFormat("HH:mm:ss");
 
         for (int i = 0; i < 9; i++) {
             calendar.set(Calendar.SECOND, (calendar.get(Calendar.SECOND) - 2));
             dateStr = dateTimeFormatter.format(calendar.getTime());
-            dataset.addValue(25 + random.nextInt(12), series1, dateStr);
+            hotRealtimeHumidityDataset.addValue(25 + random.nextInt(12), series1, dateStr);
+
+            hotRealtimeHumidityDataset.addValue(35 + random.nextInt(19), series2, dateStr);
         }
 
-        String chartTitle = "Humidity (outside the house)";
+        String chartTitle = "Relative humidity (realtime diagram)";
         String categoryAxisLabel = "Time";
         String valueAxisLabel = "Relative humidity (%)";
 
         JFreeChart chart = ChartFactory.createLineChart(chartTitle,
-                categoryAxisLabel, valueAxisLabel, dataset);
+                categoryAxisLabel, valueAxisLabel, hotRealtimeHumidityDataset);
 
         ChartPanel chartPanel = new ChartPanel(chart);
         CategoryPlot plot = chart.getCategoryPlot();
@@ -186,11 +116,10 @@ public class HumidityScreen extends javax.swing.JPanel {
         rangeAxis.setTickUnit(new NumberTickUnit(5.0));
 
         renderer.setSeriesPaint(0, Color.RED);
+        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
 
-        renderer.setSeriesStroke(0, new BasicStroke(4.0f));
+        renderer.setSeriesPaint(0, Color.GREEN);
         renderer.setSeriesStroke(1, new BasicStroke(3.0f));
-        renderer.setSeriesStroke(2, new BasicStroke(2.0f));
-        renderer.setSeriesStroke(3, new BasicStroke(1.5f));
 
         plot.setOutlinePaint(Color.BLUE);
         plot.setOutlineStroke(new BasicStroke(1.0f));
@@ -203,9 +132,9 @@ public class HumidityScreen extends javax.swing.JPanel {
 
         plot.setRenderer(renderer);
 
-        outsideHouseHumidityDiagramPanel.removeAll();
-        outsideHouseHumidityDiagramPanel.add(chartPanel, BorderLayout.CENTER);
-        outsideHouseHumidityDiagramPanel.validate();
+        hotHouseHumidityDiagramPanel.removeAll();
+        hotHouseHumidityDiagramPanel.add(chartPanel, BorderLayout.CENTER);
+        hotHouseHumidityDiagramPanel.validate();
 
     }
     // </editor-fold> 
@@ -224,8 +153,9 @@ public class HumidityScreen extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         titlePanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        backButton = new javax.swing.JButton();
         realtimeHumidityInsideTheHousePanel = new javax.swing.JPanel();
-        insideHouseHumidityDiagramPanel = new javax.swing.JPanel();
+        hotHouseHumidityDiagramPanel = new javax.swing.JPanel();
         realtimeHumidityOutsideTheHousePanel = new javax.swing.JPanel();
         outsideHouseHumidityDiagramPanel = new javax.swing.JPanel();
 
@@ -246,41 +176,54 @@ public class HumidityScreen extends javax.swing.JPanel {
         titlePanel.setBackground(new java.awt.Color(153, 204, 255));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
-        jLabel1.setText("House humidity in %");
+        jLabel1.setText("House humidity");
+
+        backButton.setText("Back");
+        backButton.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        backButton.setFocusPainted(false);
+        backButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                backButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout titlePanelLayout = new javax.swing.GroupLayout(titlePanel);
         titlePanel.setLayout(titlePanelLayout);
         titlePanelLayout.setHorizontalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titlePanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 722, Short.MAX_VALUE)
+                .addComponent(backButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         titlePanelLayout.setVerticalGroup(
             titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(titlePanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, titlePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                .addGroup(titlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 59, Short.MAX_VALUE)
+                    .addComponent(backButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
         realtimeHumidityInsideTheHousePanel.setPreferredSize(new java.awt.Dimension(0, 400));
 
-        insideHouseHumidityDiagramPanel.setBackground(new java.awt.Color(51, 51, 51));
-        insideHouseHumidityDiagramPanel.setLayout(new java.awt.BorderLayout());
+        hotHouseHumidityDiagramPanel.setBackground(new java.awt.Color(51, 51, 51));
+        hotHouseHumidityDiagramPanel.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout realtimeHumidityInsideTheHousePanelLayout = new javax.swing.GroupLayout(realtimeHumidityInsideTheHousePanel);
         realtimeHumidityInsideTheHousePanel.setLayout(realtimeHumidityInsideTheHousePanelLayout);
         realtimeHumidityInsideTheHousePanelLayout.setHorizontalGroup(
             realtimeHumidityInsideTheHousePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(insideHouseHumidityDiagramPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(hotHouseHumidityDiagramPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         realtimeHumidityInsideTheHousePanelLayout.setVerticalGroup(
             realtimeHumidityInsideTheHousePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(realtimeHumidityInsideTheHousePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(insideHouseHumidityDiagramPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hotHouseHumidityDiagramPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -307,9 +250,9 @@ public class HumidityScreen extends javax.swing.JPanel {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(realtimeHumidityOutsideTheHousePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+            .addComponent(realtimeHumidityOutsideTheHousePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
             .addComponent(titlePanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(realtimeHumidityInsideTheHousePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 746, Short.MAX_VALUE)
+            .addComponent(realtimeHumidityInsideTheHousePanel, javax.swing.GroupLayout.DEFAULT_SIZE, 775, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -319,7 +262,7 @@ public class HumidityScreen extends javax.swing.JPanel {
                 .addComponent(realtimeHumidityInsideTheHousePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(realtimeHumidityOutsideTheHousePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(143, Short.MAX_VALUE))
+                .addContainerGap(173, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -328,15 +271,15 @@ public class HumidityScreen extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 760, Short.MAX_VALUE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 779, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 1101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(387, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 980, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -353,9 +296,14 @@ public class HumidityScreen extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void backButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_backButtonActionPerformed
+        MainWindow.getInstance().setContent(new HomeScreen());
+    }//GEN-LAST:event_backButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel insideHouseHumidityDiagramPanel;
+    private javax.swing.JButton backButton;
+    private javax.swing.JPanel hotHouseHumidityDiagramPanel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -365,9 +313,5 @@ public class HumidityScreen extends javax.swing.JPanel {
     private javax.swing.JPanel realtimeHumidityOutsideTheHousePanel;
     private javax.swing.JPanel titlePanel;
     // End of variables declaration//GEN-END:variables
-
-    private Timer hotDiagramUpdateTimer;
-    private DefaultCategoryDataset insideHotRealtimeHumidityDataset;
-    private DefaultCategoryDataset outsideHotRealtimeHumidityDataset;
 
 }
