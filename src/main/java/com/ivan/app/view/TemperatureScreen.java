@@ -10,6 +10,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.Timer;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.ChartUtils;
@@ -42,6 +43,8 @@ public class TemperatureScreen extends javax.swing.JPanel {
         initScatterChartPanel();
         initChartBarsColorPanel();
         initLineChartPanel();
+
+        this.jScrollPane1.getVerticalScrollBar().setUnitIncrement(18);
     }
 
     private void initChart() {
@@ -300,6 +303,7 @@ public class TemperatureScreen extends javax.swing.JPanel {
         lineChartPanel = new javax.swing.JPanel();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
+        setRequestFocusEnabled(false);
 
         jScrollPane1.setBackground(new java.awt.Color(102, 255, 255));
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
@@ -400,4 +404,6 @@ public class TemperatureScreen extends javax.swing.JPanel {
     private javax.swing.JPanel lineChartPanel;
     private javax.swing.JPanel panelChart;
     // End of variables declaration//GEN-END:variables
+
+    
 }

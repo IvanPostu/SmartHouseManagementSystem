@@ -15,7 +15,9 @@ import java.sql.SQLException;
  * @author Ivan
  */
 public class SQLiteConnectionWrapper {
-    private static SQLiteConnectionWrapper singleton = new SQLiteConnectionWrapper();
+    private static final SQLiteConnectionWrapper singleton = 
+            new SQLiteConnectionWrapper();
+    
     private Connection jdbcConnection;
     
     private SQLiteConnectionWrapper(){

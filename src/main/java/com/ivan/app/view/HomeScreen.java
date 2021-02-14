@@ -40,8 +40,8 @@ public class HomeScreen extends javax.swing.JPanel {
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
         jPanel1 = new javax.swing.JPanel();
-        jButton2 = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        airHumidityButton = new javax.swing.JButton();
+        temperatureButton = new javax.swing.JButton();
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -60,14 +60,19 @@ public class HomeScreen extends javax.swing.JPanel {
         setBackground(new java.awt.Color(220, 221, 225));
         setPreferredSize(new java.awt.Dimension(800, 600));
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/air64x64.png"))); // NOI18N
-        jButton2.setText("Air humidity");
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/temperature64x64.png"))); // NOI18N
-        jButton1.setText("Temperature");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        airHumidityButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/air64x64.png"))); // NOI18N
+        airHumidityButton.setText("Air humidity");
+        airHumidityButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                airHumidityButtonActionPerformed(evt);
+            }
+        });
+
+        temperatureButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/temperature64x64.png"))); // NOI18N
+        temperatureButton.setText("Temperature");
+        temperatureButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                temperatureButtonActionPerformed(evt);
             }
         });
 
@@ -77,18 +82,18 @@ public class HomeScreen extends javax.swing.JPanel {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(402, Short.MAX_VALUE))
+                .addComponent(airHumidityButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(temperatureButton, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(370, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(airHumidityButton)
+                    .addComponent(temperatureButton))
                 .addContainerGap(113, Short.MAX_VALUE))
         );
 
@@ -106,15 +111,19 @@ public class HomeScreen extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void temperatureButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_temperatureButtonActionPerformed
         mainWindow.setContentPane(new TemperatureScreen());
         mainWindow.setVisible(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_temperatureButtonActionPerformed
+
+    private void airHumidityButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_airHumidityButtonActionPerformed
+        mainWindow.setContentPane(new HumidityScreen());
+        mainWindow.setVisible(true);
+    }//GEN-LAST:event_airHumidityButtonActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton airHumidityButton;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -123,5 +132,6 @@ public class HomeScreen extends javax.swing.JPanel {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar2;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton temperatureButton;
     // End of variables declaration//GEN-END:variables
 }

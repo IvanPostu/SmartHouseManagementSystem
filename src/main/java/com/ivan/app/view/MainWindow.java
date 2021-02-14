@@ -19,6 +19,8 @@ public final class MainWindow extends javax.swing.JFrame {
     private MainWindow() {
         initComponents();
         getProfileMenu().setVisible(false);
+        
+        setTitle("Smart House Management System");
     }
 
     public static synchronized MainWindow getInstance(){

@@ -5,5 +5,6 @@ VALUES
 ('jimmy', 'qwerty', 'Marin', 'Pepeneverde'),
 ('rick', 'helloworld', 'Ion', 'Vasilevski'),
 ('masyanya', 'abcde007', 'Rick', 'Martin'),
-('user', 'qwerty', 'Mihail', 'Timus')
+('user', 'qwerty', 'Mihail', 'Timus'),
+('ivan', 'qwerty', 'Ivan', 'Postu')
 ;
