@@ -6,6 +6,7 @@
 package com.ivan.app.view;
 
 import javax.swing.JMenu;
+import javax.swing.JPanel;
 
 /**
  *
@@ -33,6 +34,12 @@ public final class MainWindow extends javax.swing.JFrame {
 
     public JMenu getProfileMenu() {
         return profileMenu;
+    }
+    
+    public void setContent(JPanel panel){
+        this.getContentPane().removeAll();
+        this.setContentPane(panel);
+        this.revalidate();
     }
     
     /**

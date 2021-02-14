@@ -9,9 +9,8 @@ import com.ivan.app.configurations.SQLiteConnectionWrapper;
 import com.ivan.app.datasource.UserDao;
 import com.ivan.app.datasource.entity.UserEntity;
 import com.ivan.app.datasource.sqlite.UserDaoImpl;
+import com.ivan.app.service.AuthenticationServiceImpl;
 import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 /**
@@ -20,14 +19,11 @@ import javax.swing.JOptionPane;
  */
 public class SignInScreen extends javax.swing.JPanel {
 
-    private UserDao userDao;
-    private MainWindow mainWindow;
-
+    private final AuthenticationServiceImpl authenticationService;
+    
     public SignInScreen() {
         initComponents();
-        SQLiteConnectionWrapper dbConnectionWrapper = SQLiteConnectionWrapper.getInstance();
-        userDao = new UserDaoImpl(dbConnectionWrapper.getConnection());
-        mainWindow = MainWindow.getInstance();
+        this.authenticationService = new AuthenticationServiceImpl();
     }
 
     /**
@@ -180,32 +176,9 @@ public class SignInScreen extends javax.swing.JPanel {
     }//GEN-LAST:event_usernameTextFieldActionPerformed
 
     private void signInButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signInButtonActionPerformed
-
-        final String username = usernameTextField.getText();
-        final char[] password = passwordTextField.getPassword();
-        boolean successSignIn;
-        UserEntity user = userDao.selectUserByUsername(username).orElse(null);
-
-        successSignIn = user != null
-                && user.getPassword() != null
-                && new String(password).equals(user.getPassword());
-
-        if (successSignIn) {
-            String successMessage = String.format("Wellcome %s %s", user.getFirstName(), user.getLastName());
-            JOptionPane.showMessageDialog(
-                    MainWindow.getInstance(), successMessage, "Success", JOptionPane.INFORMATION_MESSAGE);
-            mainWindow.setContentPane(new HomeScreen());
-            JMenu profileMenu = mainWindow.getProfileMenu();
-            profileMenu.setVisible(true);
-
-            mainWindow.revalidate();
-        } else {
-            String message = "Username or password is incorrect !!!";
-            JOptionPane.showMessageDialog(
-                    MainWindow.getInstance(), message, "Warning", JOptionPane.WARNING_MESSAGE);
-            mainWindow.setContentPane(new SignInScreen());
-            mainWindow.revalidate();
-        }
+        String username = usernameTextField.getText();
+        String password = new String(passwordTextField.getPassword());
+        authenticationService.authenticateUser(username, password);
     }//GEN-LAST:event_signInButtonActionPerformed
 
 
