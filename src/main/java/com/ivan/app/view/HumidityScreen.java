@@ -40,8 +40,7 @@ public class HumidityScreen extends javax.swing.JPanel {
         this.hotRealtimeHumidityDataset = new DefaultCategoryDataset();
         this.jScrollPane1.getVerticalScrollBar().setUnitIncrement(18);
 
-//        initInsideRealtimeHumidityDiagram();
-//        initOutsideRealtimeHumidityDiagram();
+
         initHotRealtiveHumidityDiagram();
 
         this.hotDiagramUpdateTimer = new Timer(1000 * 2, (e) -> {
@@ -103,34 +102,31 @@ public class HumidityScreen extends javax.swing.JPanel {
         String categoryAxisLabel = "Time";
         String valueAxisLabel = "Relative humidity (%)";
 
-        JFreeChart chart = ChartFactory.createLineChart(chartTitle,
-                categoryAxisLabel, valueAxisLabel, hotRealtimeHumidityDataset);
+        IChartBuilder chartBuilder = new LineChartBuilder();
+        
+        chartBuilder
+                .setTitle(chartTitle)
+                .setCategoryAxisLabel(categoryAxisLabel)
+                .setValueAxisLabel(valueAxisLabel)
+                .setCategoryDataset(hotRealtimeHumidityDataset)
+                .setAxisRange(0, 100)
+                .setTickUnit(new NumberTickUnit(5.0))
+                .setSeriesPaint(0, Color.BLUE)
+                .setSeriesStroke(0, new BasicStroke(2.0f))
+                .setSeriesPaint(1, Color.GREEN)
+                .setSeriesStroke(1, new BasicStroke(3.0f))
+                .setOutlinePaint(Color.BLUE)
+                .setOutlineStroke(new BasicStroke(2.0f))
+                .setBackgroundPaint(Color.WHITE)
+                .setRangeGridlinesVisible(true)
+                .setRangeGridlinePaint(Color.BLACK)
+                .setDomainGridlinesVisible(true)
+                .setDomainGridlinePaint(Color.RED);
+                
+        
+        JFreeChart chart = chartBuilder.build();
 
         ChartPanel chartPanel = new ChartPanel(chart);
-        CategoryPlot plot = chart.getCategoryPlot();
-        LineAndShapeRenderer renderer = new LineAndShapeRenderer();
-        plot.setRenderer(renderer);
-
-        NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-        rangeAxis.setRange(0, 100);
-        rangeAxis.setTickUnit(new NumberTickUnit(5.0));
-
-        renderer.setSeriesPaint(0, Color.RED);
-        renderer.setSeriesStroke(0, new BasicStroke(2.0f));
-
-        renderer.setSeriesPaint(0, Color.GREEN);
-        renderer.setSeriesStroke(1, new BasicStroke(3.0f));
-
-        plot.setOutlinePaint(Color.BLUE);
-        plot.setOutlineStroke(new BasicStroke(1.0f));
-        plot.setBackgroundPaint(Color.WHITE);
-        plot.setRangeGridlinesVisible(true);
-        plot.setRangeGridlinePaint(Color.BLACK);
-
-        plot.setDomainGridlinesVisible(true);
-        plot.setDomainGridlinePaint(Color.BLACK);
-
-        plot.setRenderer(renderer);
 
         hotHouseHumidityDiagramPanel.removeAll();
         hotHouseHumidityDiagramPanel.add(chartPanel, BorderLayout.CENTER);

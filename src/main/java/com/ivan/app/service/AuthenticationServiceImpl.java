@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package com.ivan.app.service;
 
 import com.ivan.app.configurations.SQLiteConnectionWrapper;
 import com.ivan.app.crypto.Base64Resolver;
-import com.ivan.app.crypto.Base64ResolverImpl;
 import com.ivan.app.crypto.HashFunction;
 import com.ivan.app.crypto.Sha256;
 import com.ivan.app.datasource.UserDao;
@@ -19,17 +14,15 @@ import com.ivan.app.view.SignInScreen;
 import java.nio.charset.StandardCharsets;
 import javax.swing.JMenu;
 import javax.swing.JOptionPane;
+import com.ivan.app.crypto.Base64Encoder;
 
-/**
- *
- * @author ivan
- */
+
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final UserDao userDao;
     private final MainWindow mainWindow;
     private final HashFunction passwordEncoder;
-    private final Base64Resolver base64Resolver;
+    private final Base64Encoder base64Encoder;
 
     public AuthenticationServiceImpl() {
         SQLiteConnectionWrapper dbConnectionWrapper = SQLiteConnectionWrapper
@@ -38,7 +31,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         this.userDao = new UserDaoImpl(dbConnectionWrapper.getConnection());
         this.mainWindow = MainWindow.getInstance();
         this.passwordEncoder = new Sha256();
-        this.base64Resolver = new Base64ResolverImpl();
+        this.base64Encoder = new Base64Resolver();
     }
 
     @Override
@@ -46,8 +39,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         final byte[] password = passwordHash.getBytes(StandardCharsets.UTF_8);
         final byte[] encryptedPassword = passwordEncoder.encode(password);
-        final String passwordBase64Hash = base64Resolver
-                .bytesToHex(encryptedPassword).toUpperCase();
+        final String passwordBase64Hash = base64Encoder
+                .bytesToBase64Hex(encryptedPassword).toUpperCase();
         UserEntity user = userDao.selectUserByUsername(username).orElse(null);
 
         boolean successSignIn = user != null
@@ -66,7 +59,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         } else {
             String message = "Username or password is incorrect !!!";
             JOptionPane.showMessageDialog(
-                    MainWindow.getInstance(), message, "Warning", JOptionPane.WARNING_MESSAGE);
+                    MainWindow.getInstance(), message, "Warning", 
+                    JOptionPane.WARNING_MESSAGE);
             mainWindow.setContent(new SignInScreen());
         }
     }

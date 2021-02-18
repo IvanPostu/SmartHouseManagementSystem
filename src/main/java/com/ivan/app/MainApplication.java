@@ -12,10 +12,8 @@ public class MainApplication {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                JFrame mainWindow = MainWindow.getInstance();
-                mainWindow.setLocationRelativeTo(null);
-                mainWindow.setContentPane(new SignInScreen());
-                mainWindow.setVisible(true);
+                MainWindow.getInstance();
+                
             }
         });
     }

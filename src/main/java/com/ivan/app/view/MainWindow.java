@@ -14,34 +14,36 @@ import javax.swing.JPanel;
  */
 public final class MainWindow extends javax.swing.JFrame {
 
-    
     private static MainWindow singleton;
-    
+
     private MainWindow() {
         initComponents();
         getProfileMenu().setVisible(false);
-        
+
         setTitle("Smart House Management System");
     }
 
-    public static synchronized MainWindow getInstance(){
-        if(singleton == null) {
+    public static synchronized MainWindow getInstance() {
+        if (singleton == null) {
             singleton = new MainWindow();
+            singleton.setLocationRelativeTo(null);
+            singleton.setContentPane(new SignInScreen());
+            singleton.setVisible(true);
         }
-        
+
         return singleton;
     }
 
     public JMenu getProfileMenu() {
         return profileMenu;
     }
-    
-    public void setContent(JPanel panel){
+
+    public void setContent(JPanel panel) {
         this.getContentPane().removeAll();
         this.setContentPane(panel);
         this.revalidate();
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
