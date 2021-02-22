@@ -58,10 +58,10 @@
           <Layout>
             <DimensionLayout dim="0">
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="0" attributes="0">
+                  <Group type="102" alignment="1" attributes="0">
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="jPanel2" pref="776" max="32767" attributes="0"/>
-                      <EmptySpace max="32767" attributes="0"/>
+                      <Component id="jPanel2" min="-2" pref="752" max="-2" attributes="0"/>
+                      <EmptySpace pref="36" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -94,9 +94,9 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="realtimeHumidityOutsideTheHousePanel" alignment="0" pref="772" max="32767" attributes="0"/>
+                      <Component id="realtimeHumidityOutsideTheHousePanel" alignment="0" pref="748" max="32767" attributes="0"/>
                       <Component id="titlePanel" alignment="1" max="32767" attributes="0"/>
-                      <Component id="realtimeHumidityInsideTheHousePanel" alignment="0" pref="772" max="32767" attributes="0"/>
+                      <Component id="realtimeHumidityInsideTheHousePanel" alignment="0" pref="748" max="32767" attributes="0"/>
                   </Group>
                 </DimensionLayout>
                 <DimensionLayout dim="1">
