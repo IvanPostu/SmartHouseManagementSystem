@@ -29,19 +29,25 @@ public class HomeScreen extends javax.swing.JPanel {
         mainWindow = MainWindow.getInstance();
         initComponents();
 
-
         try {
             housePlanImage = ImageIO.read(getClass().getResource("/house_plan.jpg"));
             Image img1 = housePlanImage;
 
             JPanel a1 = new JPanel() {
+                private boolean imageSizeIsCalculated = false;
+                private Image img = img1;
+
                 @Override
                 public void paintComponent(Graphics g) {
                     super.paintComponent(g);
-                    Image img2 = img1.getScaledInstance(this.getWidth(),
-                            this.getHeight(), Image.SCALE_SMOOTH);
-                    
-                    g.drawImage(img2, 0, 0, this);
+
+                    if (this.getWidth() > 0 && !imageSizeIsCalculated) {
+                        img = img1.getScaledInstance(this.getWidth(),
+                                this.getHeight(), Image.SCALE_SMOOTH);
+                        imageSizeIsCalculated = true;
+                    }
+
+                    g.drawImage(img, 0, 0, this);
 
                 }
             };
