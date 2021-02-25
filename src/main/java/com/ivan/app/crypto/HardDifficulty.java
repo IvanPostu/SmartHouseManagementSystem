@@ -9,7 +9,7 @@ package com.ivan.app.crypto;
  *
  * @author ivan
  */
-public class HardDifficulty implements Difficulty{
+public class HardDifficulty implements IDifficulty{
 
     @Override
     public HashFunction getHashFunction() {

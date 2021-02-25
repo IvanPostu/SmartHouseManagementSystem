@@ -27,7 +27,7 @@ public final class MainWindow extends javax.swing.JFrame {
         if (singleton == null) {
             singleton = new MainWindow();
             singleton.setLocationRelativeTo(null);
-            singleton.setContentPane(new SignInScreen());
+            singleton.setContentPane(new HomeScreen());
             singleton.setVisible(true);
         }
 
@@ -60,6 +60,7 @@ public final class MainWindow extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         profileMenu = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
         signOutMenuItem = new javax.swing.JMenuItem();
 
         jMenu3.setText("jMenu3");
@@ -78,7 +79,20 @@ public final class MainWindow extends javax.swing.JFrame {
         profileMenu.setText("Profile");
 
         jMenuItem2.setText("Info");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         profileMenu.add(jMenuItem2);
+
+        jMenuItem3.setText("Menu");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        profileMenu.add(jMenuItem3);
 
         signOutMenuItem.setText("Sign out");
         signOutMenuItem.addActionListener(new java.awt.event.ActionListener() {
@@ -112,6 +126,13 @@ public final class MainWindow extends javax.swing.JFrame {
         this.revalidate();
     }//GEN-LAST:event_signOutMenuItemActionPerformed
 
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        setContent(new HomeScreen());
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -123,6 +144,7 @@ public final class MainWindow extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenu profileMenu;
     private javax.swing.JMenuItem signOutMenuItem;
     // End of variables declaration//GEN-END:variables

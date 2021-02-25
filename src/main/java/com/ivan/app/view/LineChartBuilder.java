@@ -5,12 +5,9 @@
  */
 package com.ivan.app.view;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;

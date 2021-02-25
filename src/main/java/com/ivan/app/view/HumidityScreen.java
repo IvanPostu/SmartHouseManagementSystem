@@ -40,8 +40,8 @@ public class HumidityScreen extends javax.swing.JPanel {
         this.hotRealtimeHumidityDataset = new DefaultCategoryDataset();
         this.jScrollPane1.getVerticalScrollBar().setUnitIncrement(18);
 
-
         initHotRealtiveHumidityDiagram();
+        initDailyRelativeHumidityDiagram();
 
         this.hotDiagramUpdateTimer = new Timer(1000 * 2, (e) -> {
             updateHotHumidityTheHouseValue();
@@ -103,7 +103,7 @@ public class HumidityScreen extends javax.swing.JPanel {
         String valueAxisLabel = "Relative humidity (%)";
 
         IChartBuilder chartBuilder = new LineChartBuilder();
-         
+
         chartBuilder
                 .setTitle(chartTitle)
                 .setCategoryAxisLabel(categoryAxisLabel)
@@ -122,8 +122,7 @@ public class HumidityScreen extends javax.swing.JPanel {
                 .setRangeGridlinePaint(Color.BLACK)
                 .setDomainGridlinesVisible(true)
                 .setDomainGridlinePaint(Color.RED);
-                
-        
+
         JFreeChart chart = chartBuilder.build();
 
         ChartPanel chartPanel = new ChartPanel(chart);
@@ -131,6 +130,59 @@ public class HumidityScreen extends javax.swing.JPanel {
         hotHouseHumidityDiagramPanel.removeAll();
         hotHouseHumidityDiagramPanel.add(chartPanel, BorderLayout.CENTER);
         hotHouseHumidityDiagramPanel.validate();
+
+    }
+
+    private void initDailyRelativeHumidityDiagram() {
+        String series1 = "Humidity (inside the house)";
+        String series2 = "Humidity (outside the house)";
+        DefaultCategoryDataset dailyRealtimeHumidityDataset = new DefaultCategoryDataset();
+        String dateStr;
+
+        DateFormat dateTimeFormatter = new SimpleDateFormat("dd:MM");
+
+        for (int i = 8; i >= 0x0; i--) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            calendar.set(Calendar.DAY_OF_MONTH, (calendar.get(Calendar.DAY_OF_MONTH) - i));
+            dateStr = dateTimeFormatter.format(calendar.getTime());
+            dailyRealtimeHumidityDataset.addValue(25 + random.nextInt(12), series1, dateStr);
+
+            dailyRealtimeHumidityDataset.addValue(35 + random.nextInt(19), series2, dateStr);
+        }
+
+        String chartTitle = "Relative humidity (daily diagram)";
+        String categoryAxisLabel = "Time";
+        String valueAxisLabel = "Relative humidity (%)";
+
+        IChartBuilder chartBuilder = new LineChartBuilder();
+
+        chartBuilder
+                .setTitle(chartTitle)
+                .setCategoryAxisLabel(categoryAxisLabel)
+                .setValueAxisLabel(valueAxisLabel)
+                .setCategoryDataset(dailyRealtimeHumidityDataset)
+                .setAxisRange(0, 100)
+                .setTickUnit(new NumberTickUnit(5.0))
+                .setSeriesPaint(0, Color.BLUE)
+                .setSeriesStroke(0, new BasicStroke(2.0f))
+                .setSeriesPaint(1, Color.GREEN)
+                .setSeriesStroke(1, new BasicStroke(3.0f))
+                .setOutlinePaint(Color.BLUE)
+                .setOutlineStroke(new BasicStroke(2.0f))
+                .setBackgroundPaint(Color.WHITE)
+                .setRangeGridlinesVisible(true)
+                .setRangeGridlinePaint(Color.BLACK)
+                .setDomainGridlinesVisible(true)
+                .setDomainGridlinePaint(Color.RED);
+
+        JFreeChart chart = chartBuilder.build();
+
+        ChartPanel chartPanel = new ChartPanel(chart);
+
+        outsideHouseHumidityDiagramPanel.removeAll();
+        outsideHouseHumidityDiagramPanel.add(chartPanel, BorderLayout.CENTER);
+        outsideHouseHumidityDiagramPanel.validate();
 
     }
     // </editor-fold> 

@@ -4,9 +4,9 @@ package com.ivan.app.crypto;
  *
  * @author ivan
  */
-public interface Difficulty {
+public interface IDifficulty {
 
-    static Difficulty difficultyCreate(Integer passwordLength) {
+    static IDifficulty difficultyCreate(Integer passwordLength) {
         if (passwordLength <= 5) {
             System.out.println("Complexitatea password - ului este scazuta,"
                     + " se v-a utiliza hash functie compusa.");

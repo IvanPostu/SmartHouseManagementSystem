@@ -18,7 +18,7 @@ public class Registration {
         System.out.println("Enter password: ");
         String password = new Scanner(System.in).nextLine();
 
-        Difficulty difficulty = Difficulty.difficultyCreate(password.length());
+        IDifficulty difficulty = IDifficulty.difficultyCreate(password.length());
         MainPlus.PasswordManager manager = new MainPlus
                 .PasswordManager(difficulty.getHashFunction());
         byte[] encodedHash = manager.encryptPassword(password.getBytes());
