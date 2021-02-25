@@ -1,0 +1,3 @@
+logPattern=[{level}]: {message} - {targetClass}
+logType=STDOUT
+

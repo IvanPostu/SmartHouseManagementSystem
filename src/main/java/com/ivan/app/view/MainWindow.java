@@ -5,6 +5,8 @@
  */
 package com.ivan.app.view;
 
+import com.ivan.app.logger.AbstractLoggerFactory;
+import com.ivan.app.logger.ILogger;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
 
@@ -15,12 +17,15 @@ import javax.swing.JPanel;
 public final class MainWindow extends javax.swing.JFrame {
 
     private static MainWindow singleton;
-
+    private ILogger logger = AbstractLoggerFactory.createLogger(MainWindow.class);
+    
+    
     private MainWindow() {
         initComponents();
         getProfileMenu().setVisible(false);
 
         setTitle("Smart House Management System");
+        logger.info("MainMenu successfully created");
     }
 
     public static synchronized MainWindow getInstance() {
