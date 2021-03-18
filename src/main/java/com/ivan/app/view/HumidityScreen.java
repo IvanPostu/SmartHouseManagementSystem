@@ -14,13 +14,9 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Random;
 import javax.swing.Timer;
-import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.axis.NumberTickUnit;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
@@ -123,9 +119,9 @@ public class HumidityScreen extends javax.swing.JPanel {
                 .setDomainGridlinesVisible(true)
                 .setDomainGridlinePaint(Color.RED);
 
-        JFreeChart chart = chartBuilder.build();
+        IChart chart = chartBuilder.build();
 
-        ChartPanel chartPanel = new ChartPanel(chart);
+        ChartPanel chartPanel = new ChartPanel(chart.getChart());
 
         hotHouseHumidityDiagramPanel.removeAll();
         hotHouseHumidityDiagramPanel.add(chartPanel, BorderLayout.CENTER);
@@ -155,9 +151,12 @@ public class HumidityScreen extends javax.swing.JPanel {
         String categoryAxisLabel = "Time";
         String valueAxisLabel = "Relative humidity (%)";
 
-        IChartBuilder chartBuilder = new LineChartBuilder();
+        ILineChartBuilder chartBuilder = new LineChartBuilder();
 
         chartBuilder
+                .setLineColor(SOMEBITS, Color.yellow)
+                .setLineWeight(1, new BasicStroke(3.0f))
+                
                 .setTitle(chartTitle)
                 .setCategoryAxisLabel(categoryAxisLabel)
                 .setValueAxisLabel(valueAxisLabel)
@@ -176,9 +175,9 @@ public class HumidityScreen extends javax.swing.JPanel {
                 .setDomainGridlinesVisible(true)
                 .setDomainGridlinePaint(Color.RED);
 
-        JFreeChart chart = chartBuilder.build();
+        IChart chart = chartBuilder.build();
 
-        ChartPanel chartPanel = new ChartPanel(chart);
+        ChartPanel chartPanel = new ChartPanel(chart.getChart());
 
         outsideHouseHumidityDiagramPanel.removeAll();
         outsideHouseHumidityDiagramPanel.add(chartPanel, BorderLayout.CENTER);

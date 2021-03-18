@@ -5,6 +5,8 @@
  */
 package com.ivan.app.view;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
 import java.awt.Paint;
 import java.awt.Stroke;
 import org.jfree.chart.ChartFactory;
@@ -19,7 +21,7 @@ import org.jfree.data.category.CategoryDataset;
  *
  * @author ivan
  */
-public class LineChartBuilder implements IChartBuilder {
+public class LineChartBuilder implements ILineChartBuilder {
 
     private CategoryDataset dataset;
     private String title;
@@ -37,7 +39,7 @@ public class LineChartBuilder implements IChartBuilder {
     private Paint domainGridlinePaint;
 
     @Override
-    public JFreeChart build() {
+    public IChart build() {
         JFreeChart chart = ChartFactory.createLineChart(title,
                 categoryAxisLabel, valueAxisLabel, dataset);
 
@@ -59,7 +61,7 @@ public class LineChartBuilder implements IChartBuilder {
 
         plot.setRenderer(renderer);
 
-        return chart;
+        return new LineChart(chart);
     }
 
     @Override
@@ -153,6 +155,20 @@ public class LineChartBuilder implements IChartBuilder {
     public IChartBuilder setDomainGridlinePaint(Paint paint) {
         this.domainGridlinePaint = paint;
 
+        return this;
+    }
+
+    @Override
+    public ILineChartBuilder setLineColor(int series, Color color) {
+        this.setSeriesPaint(series, color);
+        
+        return this;
+    }
+
+    @Override
+    public ILineChartBuilder setLineWeight(int series, BasicStroke b) {
+        this.setSeriesStroke(series, b);
+        
         return this;
     }
 

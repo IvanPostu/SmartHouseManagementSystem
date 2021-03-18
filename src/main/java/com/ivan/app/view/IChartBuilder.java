@@ -18,7 +18,7 @@ import org.jfree.data.category.CategoryDataset;
  */
 public interface IChartBuilder {
 
-    JFreeChart build();
+    IChart build();
 
     IChartBuilder setCategoryDataset(CategoryDataset dataset);
 
