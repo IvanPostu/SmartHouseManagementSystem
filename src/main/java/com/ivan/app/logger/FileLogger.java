@@ -6,6 +6,14 @@ package com.ivan.app.logger;
  */
 public class FileLogger implements ILogger {
 
+    private String targetClassName;
+    private LogResolverPrototype logResolverPrototype;
+
+    public FileLogger(String targetClassName, LogResolverPrototype logResolverPrototype) {
+        this.targetClassName = targetClassName;
+        this.logResolverPrototype = logResolverPrototype;
+    }
+    
     @Override
     public void debug(String msg) {
     }

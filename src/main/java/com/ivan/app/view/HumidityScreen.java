@@ -98,9 +98,10 @@ public class HumidityScreen extends javax.swing.JPanel {
         String categoryAxisLabel = "Time";
         String valueAxisLabel = "Relative humidity (%)";
 
-        IChartBuilder chartBuilder = new LineChartBuilder();
+        ILineChartBuilder chartBuilder = new LineChartBuilder();
 
         chartBuilder
+//                .s
                 .setTitle(chartTitle)
                 .setCategoryAxisLabel(categoryAxisLabel)
                 .setValueAxisLabel(valueAxisLabel)
@@ -151,11 +152,11 @@ public class HumidityScreen extends javax.swing.JPanel {
         String categoryAxisLabel = "Time";
         String valueAxisLabel = "Relative humidity (%)";
 
-        ILineChartBuilder chartBuilder = new LineChartBuilder();
+        IPieChart3DBuilder chartBuilder = new PieChartBuilder3D();
 
         chartBuilder
-                .setLineColor(SOMEBITS, Color.yellow)
-                .setLineWeight(1, new BasicStroke(3.0f))
+                .setStartAngle(5)
+                .setForeground(90.f)
                 
                 .setTitle(chartTitle)
                 .setCategoryAxisLabel(categoryAxisLabel)

@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 public final class MainWindow extends javax.swing.JFrame {
 
     private static MainWindow singleton;
-    private ILogger logger = AbstractLoggerFactory.createLogger(MainWindow.class);
+//    private ILogger logger = AbstractLoggerFactory.createLogger(MainWindow.class);
     
     
     private MainWindow() {
@@ -25,7 +25,7 @@ public final class MainWindow extends javax.swing.JFrame {
         getProfileMenu().setVisible(false);
 
         setTitle("Smart House Management System");
-        logger.info("MainMenu successfully created");
+//        logger.info("MainMenu successfully created");
     }
 
     public static synchronized MainWindow getInstance() {

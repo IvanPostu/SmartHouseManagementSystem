@@ -10,6 +10,10 @@ public class LogResolverPrototype implements Cloneable {
     private String solvedText = "";
     private LoggerConfigurator.LogType logType;
 
+    LogResolverPrototype(){
+        
+    }
+    
     public LogResolverPrototype getClone() {
         try {
             return (LogResolverPrototype) super.clone();

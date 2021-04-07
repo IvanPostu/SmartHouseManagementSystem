@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch MainApplication",
+      "request": "launch",
+      "mainClass": "com.ivan.app.MainApplication",
+      "projectName": "SmartHouseManagementSystem"
+    },
+    {
+      "type": "java",
       "name": "Launch Test1",
       "request": "launch",
       "mainClass": "com.ivan.rc.test1.Test1",

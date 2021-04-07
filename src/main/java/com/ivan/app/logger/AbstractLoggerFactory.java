@@ -9,16 +9,18 @@ package com.ivan.app.logger;
  *
  * @author ivan
  */
-public abstract class AbstractLoggerFactory {
-    
-    private static LogResolverPrototype prototype;
-    
-    public static ILogger createLogger(Class<?> tClass){
-        if(prototype == null){
-            prototype = LoggerConfigurator.getConfiguration();
+public abstract class AbstractLoggerFactory<T extends ILogger> {
+
+    private static LogResolverPrototype logResolverPrototype;
+
+    public LogResolverPrototype getLogResolverPrototype() {
+        if (logResolverPrototype == null) {
+            logResolverPrototype = LoggerConfigurator.getConfiguration();
         }
-        
-        return new StdOutLogger(tClass.getName(), prototype.getClone());
+
+        return logResolverPrototype.getClone();
     }
+
+    public abstract T create(Class<?> tClass);
 
 }
