@@ -36,14 +36,13 @@ public class AlarmServiceImpl implements AlarmService {
         fireDepartmentAlarmNetwork.addComponent(new SSL2AlarmReporterDecorator(
                 new SSL3AlarmReporterDecorator(new SocketAlarmReporter("www.fire-department-2.com", "secret-token2"))));
 
-        AlarmReporterComponentsNetwork ambulanceAlarmNetwork = new AlarmReporterComponentsNetwork();
-        ambulanceAlarmNetwork.addComponent(new TLSAlarmReporterDecorator(new SSL3AlarmReporterDecorator(
-                new SSL2AlarmReporterDecorator(new SocketAlarmReporter("www.ambulance.com", "secret-token1")))));
+        IAlarmReporterComponent ambulanceAlarm = new TLSAlarmReporterDecorator(new SSL3AlarmReporterDecorator(
+                new SSL2AlarmReporterDecorator(new SocketAlarmReporter("www.ambulance.com", "secret-token1"))));
 
         AlarmReporterComponentsNetwork instanceAlarmReporter = new AlarmReporterComponentsNetwork();
         instanceAlarmReporter.addComponent(policeAlarmNetwork);
         instanceAlarmReporter.addComponent(fireDepartmentAlarmNetwork);
-        instanceAlarmReporter.addComponent(ambulanceAlarmNetwork);
+        instanceAlarmReporter.addComponent(ambulanceAlarm);
         this.alarmReporter = instanceAlarmReporter;
     }
 

@@ -5,10 +5,10 @@
  */
 package com.ivan.app.view;
 
-import com.ivan.app.logger.AbstractLoggerFactory;
-import com.ivan.app.logger.ILogger;
 import javax.swing.JMenu;
 import javax.swing.JPanel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  *
@@ -17,15 +17,14 @@ import javax.swing.JPanel;
 public final class MainWindow extends javax.swing.JFrame {
 
     private static MainWindow singleton;
-//    private ILogger logger = AbstractLoggerFactory.createLogger(MainWindow.class);
-    
+    private static final Logger LOGGER = LogManager.getLogger(MainWindow.class);
     
     private MainWindow() {
         initComponents();
         getProfileMenu().setVisible(false);
 
         setTitle("Smart House Management System");
-//        logger.info("MainMenu successfully created");
+        LOGGER.info("MainMenu successfully created");
     }
 
     public static synchronized MainWindow getInstance() {
@@ -135,7 +134,7 @@ public final class MainWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        setContent(new HomeScreen());
+        setContent(new SignInScreen());
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     /**
