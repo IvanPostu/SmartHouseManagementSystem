@@ -5,15 +5,22 @@
  */
 package com.ivan.app.view;
 
+import com.ivan.app.service.ExportDataContext;
+import com.ivan.app.service.ExportDataServiceCSVImpl;
 import com.ivan.app.service.IOTService;
 import com.ivan.app.service.IOTServiceImpl;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FileDialog;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import javax.swing.Timer;
 import org.jfree.chart.ChartPanel;
@@ -27,18 +34,19 @@ import org.jfree.data.category.DefaultCategoryDataset;
 public class RadiationBackgroundScreen extends javax.swing.JPanel {
 
     private final Timer hotDiagramUpdateTimer;
-    private final DefaultCategoryDataset hotRealtimeHumidityDataset;
+    private final DefaultCategoryDataset hotRealtimeRadiationDataset;
     private final Random random;
     private final IOTService iOTService;
     private final String series1 = "Radiation background inside ( mZv/h )";
     private final String series2 = "Radiation background outside ( mZv/h )";
+    private final ExportDataContext exportContext;
 
     public RadiationBackgroundScreen() {
         initComponents();
 
         this.iOTService = new IOTServiceImpl();
         this.random = new Random();
-        this.hotRealtimeHumidityDataset = new DefaultCategoryDataset();
+        this.hotRealtimeRadiationDataset = new DefaultCategoryDataset();
         this.jScrollPane1.getVerticalScrollBar().setUnitIncrement(18);
 
         initHotRealtimeRadiationBackgroundDiagram();
@@ -46,6 +54,8 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
         this.hotDiagramUpdateTimer = new Timer(1000 * 2, (e) -> {
             updateHotRealtimeRadiationBackgroundDiagram();
         });
+        
+        this.exportContext = new ExportDataContext(new ExportDataServiceCSVImpl());
     }
 
     @Override
@@ -71,14 +81,14 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
         
         double newValue = iOTService.radiationLevelInsideTheHouse();
         
-        hotRealtimeHumidityDataset.addValue(newValue,
+        hotRealtimeRadiationDataset.addValue(newValue,
                 "Radiation background inside ( mZv/h )",
                 dateStr);
         newValue = iOTService.radiationLevelOutsideTheHouse();
-        hotRealtimeHumidityDataset.addValue(newValue,
+        hotRealtimeRadiationDataset.addValue(newValue,
                 "Radiation background outside ( mZv/h )",
                 dateStr);
-        hotRealtimeHumidityDataset.removeColumn(0);
+        hotRealtimeRadiationDataset.removeColumn(0);
     }
 
     // <editor-fold defaultstate="collapsed" desc="initHotRealtiveHumidityDiagram">  
@@ -96,9 +106,9 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
             dateStr = dateTimeFormatter.format(calendar.getTime());
             double newValue;
             newValue = iOTService.radiationLevelInsideTheHouse();
-            hotRealtimeHumidityDataset.addValue(newValue, series1, dateStr);
+            hotRealtimeRadiationDataset.addValue(newValue, series1, dateStr);
             newValue = iOTService.radiationLevelOutsideTheHouse();
-            hotRealtimeHumidityDataset.addValue(newValue, series2, dateStr);
+            hotRealtimeRadiationDataset.addValue(newValue, series2, dateStr);
         }
 
         String chartTitle = "Radiation background ( realtime diagram )";
@@ -111,7 +121,7 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
                 .setTitle(chartTitle)
                 .setCategoryAxisLabel(categoryAxisLabel)
                 .setValueAxisLabel(valueAxisLabel)
-                .setCategoryDataset(hotRealtimeHumidityDataset)
+                .setCategoryDataset(hotRealtimeRadiationDataset)
                 .setAxisRange(0, 10)
                 .setTickUnit(new NumberTickUnit(1.0))
                 .setSeriesPaint(0, Color.BLUE)
@@ -155,6 +165,8 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
         backButton = new javax.swing.JButton();
         realtimeHumidityInsideTheHousePanel = new javax.swing.JPanel();
         hotHouseHumidityDiagramPanel = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -211,18 +223,37 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
         hotHouseHumidityDiagramPanel.setBackground(new java.awt.Color(51, 51, 51));
         hotHouseHumidityDiagramPanel.setLayout(new java.awt.BorderLayout());
 
+        jButton1.setText("Save data");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CSV", "XML" }));
+
         javax.swing.GroupLayout realtimeHumidityInsideTheHousePanelLayout = new javax.swing.GroupLayout(realtimeHumidityInsideTheHousePanel);
         realtimeHumidityInsideTheHousePanel.setLayout(realtimeHumidityInsideTheHousePanelLayout);
         realtimeHumidityInsideTheHousePanelLayout.setHorizontalGroup(
             realtimeHumidityInsideTheHousePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(hotHouseHumidityDiagramPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(realtimeHumidityInsideTheHousePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         realtimeHumidityInsideTheHousePanelLayout.setVerticalGroup(
             realtimeHumidityInsideTheHousePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(realtimeHumidityInsideTheHousePanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(hotHouseHumidityDiagramPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(realtimeHumidityInsideTheHousePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 37, Short.MAX_VALUE)
+                    .addComponent(jComboBox1))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -237,8 +268,8 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(titlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(realtimeHumidityInsideTheHousePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(323, Short.MAX_VALUE))
+                .addComponent(realtimeHumidityInsideTheHousePanel, javax.swing.GroupLayout.PREFERRED_SIZE, 446, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(231, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -255,7 +286,7 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 770, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jScrollPane1.setViewportView(jPanel1);
@@ -276,10 +307,36 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
         MainWindow.getInstance().setContent(new HomeScreen());
     }//GEN-LAST:event_backButtonActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        FileDialog fDialog = new FileDialog(MainWindow.getInstance(), "Save", FileDialog.SAVE);
+        fDialog.setVisible(true);
+        
+//        if(fDialog.getDirectory() == null || fDialog.getFile() == null){
+//            return;
+//        }
+        
+        String path = fDialog.getDirectory() + fDialog.getFile();
+        List<String> data1 = new ArrayList<>();
+        List<String> data2 = new ArrayList<>();
+        
+        for (int i = 0; i < 9; i++) {
+            data1.add(String.valueOf(hotRealtimeRadiationDataset.getValue(0, i)));
+            data2.add(String.valueOf(hotRealtimeRadiationDataset.getValue(1, i)));
+        }
+        
+        Map<String, List<String>> l = new HashMap<>();
+        l.put("Inside the house radiation", data1);
+        l.put("Outside the house radiation", data2);
+
+        this.exportContext.exportData(l, path);
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton backButton;
     private javax.swing.JPanel hotHouseHumidityDiagramPanel;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
