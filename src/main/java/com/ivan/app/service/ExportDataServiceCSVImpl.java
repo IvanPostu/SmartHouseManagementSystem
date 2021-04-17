@@ -24,11 +24,14 @@ public class ExportDataServiceCSVImpl implements ExportDataSerciveStrategy {
 
     private static final Logger LOGGER = LogManager.getLogger(ExportDataServiceCSVImpl.class);
 
+    
     @Override
     public void exportData(Map<String, List<String>> data, String fileName) {
 
         File f = new File(fileName + ".csv");
 
+        
+        
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(f))) {
             List<Iterator<String>> iterators = new ArrayList<>();
 
@@ -39,7 +42,6 @@ public class ExportDataServiceCSVImpl implements ExportDataSerciveStrategy {
                 } catch (IOException ex) {
                     LOGGER.error(ex);
                 }
-
             });
             writer.write("\n");
 

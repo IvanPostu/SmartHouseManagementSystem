@@ -7,6 +7,7 @@ package com.ivan.app.view;
 
 import com.ivan.app.service.ExportDataContext;
 import com.ivan.app.service.ExportDataServiceCSVImpl;
+import com.ivan.app.service.ExportDataServiceDocImpl;
 import com.ivan.app.service.IOTService;
 import com.ivan.app.service.IOTServiceImpl;
 import java.awt.BasicStroke;
@@ -35,17 +36,18 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
 
     private final Timer hotDiagramUpdateTimer;
     private final DefaultCategoryDataset hotRealtimeRadiationDataset;
-    private final Random random;
     private final IOTService iOTService;
     private final String series1 = "Radiation background inside ( mZv/h )";
     private final String series2 = "Radiation background outside ( mZv/h )";
-    private final ExportDataContext exportContext;
+    private ExportDataContext exportContext;
+    private final String[] jBoxMenuValues = {"doc", "csv"};
 
     public RadiationBackgroundScreen() {
         initComponents();
-
+        for (String s : jBoxMenuValues) {
+            jComboBox1.addItem(s);
+        }
         this.iOTService = new IOTServiceImpl();
-        this.random = new Random();
         this.hotRealtimeRadiationDataset = new DefaultCategoryDataset();
         this.jScrollPane1.getVerticalScrollBar().setUnitIncrement(18);
 
@@ -54,8 +56,7 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
         this.hotDiagramUpdateTimer = new Timer(1000 * 2, (e) -> {
             updateHotRealtimeRadiationBackgroundDiagram();
         });
-        
-        this.exportContext = new ExportDataContext(new ExportDataServiceCSVImpl());
+
     }
 
     @Override
@@ -78,9 +79,9 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
         calendar.setTime(now);
         calendar.set(Calendar.SECOND, (calendar.get(Calendar.SECOND)));
         String dateStr = dateTimeFormatter.format(calendar.getTime());
-        
+
         double newValue = iOTService.radiationLevelInsideTheHouse();
-        
+
         hotRealtimeRadiationDataset.addValue(newValue,
                 "Radiation background inside ( mZv/h )",
                 dateStr);
@@ -147,7 +148,6 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
     }
 
     // </editor-fold> 
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -230,7 +230,11 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CSV", "XML" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout realtimeHumidityInsideTheHousePanelLayout = new javax.swing.GroupLayout(realtimeHumidityInsideTheHousePanel);
         realtimeHumidityInsideTheHousePanel.setLayout(realtimeHumidityInsideTheHousePanelLayout);
@@ -310,26 +314,33 @@ public class RadiationBackgroundScreen extends javax.swing.JPanel {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         FileDialog fDialog = new FileDialog(MainWindow.getInstance(), "Save", FileDialog.SAVE);
         fDialog.setVisible(true);
-        
-//        if(fDialog.getDirectory() == null || fDialog.getFile() == null){
-//            return;
-//        }
-        
+
+        int jComboIndex = jComboBox1.getSelectedIndex();
+        if (jComboIndex == 0) {
+            this.exportContext = new ExportDataContext(new ExportDataServiceDocImpl());
+        } else {
+            this.exportContext = new ExportDataContext(new ExportDataServiceCSVImpl());
+        }
+
         String path = fDialog.getDirectory() + fDialog.getFile();
         List<String> data1 = new ArrayList<>();
         List<String> data2 = new ArrayList<>();
-        
+
         for (int i = 0; i < 9; i++) {
             data1.add(String.valueOf(hotRealtimeRadiationDataset.getValue(0, i)));
             data2.add(String.valueOf(hotRealtimeRadiationDataset.getValue(1, i)));
         }
-        
+
         Map<String, List<String>> l = new HashMap<>();
         l.put("Inside the house radiation", data1);
         l.put("Outside the house radiation", data2);
 
         this.exportContext.exportData(l, path);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
